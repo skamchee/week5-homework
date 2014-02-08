@@ -9,24 +9,24 @@ class ComicsController < ApplicationController
 	end
 
 	def new
-		@formheader = "<div class='page-header'><h1>Add a New Comic</h1></div>"
 		@comic = nil
 	end
 
 	def create
-		@formheader = "<div class='page-header'><h1>Add a New Comic</h1></div>"
-		comic = Comic.new
-    	comic.title = params["title"]
-    	comic.description = params["description"]
-    	comic.image = params["image"]
-	    comic.save
-    	redirect_to "/"
+		@comic = Comic.new
+    	@comic.title = params["title"]
+    	@comic.description = params["description"]
+    	@comic.image = params["image"]
+    	if(@comic.valid?)
+	   	 	@comic.save
+    	end
+    	render "new" #send to a view
 	end
 
 	def delete
 		c = Comic.find_by(:id => params[:id])
 		c.destroy
-		redirect_to "/"
+		redirect_to "/" #send to a route
 	end
 
 end
